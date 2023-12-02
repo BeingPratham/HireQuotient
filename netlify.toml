@@ -1,6 +1,7 @@
 [build]
     command = "npm run build"
     functions = "functions"
+    publish = "views"
 
 [[redirects]]
     to = "/.netlify/functions/app/:splat"
