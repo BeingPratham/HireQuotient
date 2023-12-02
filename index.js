@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   const UserData = UserLists.slice(start, end);
   const totalPages = Math.ceil(UserLists.length / page_len);
 
-  res.render("index", {
+  res.render("home", {
     data: UserData,
     currentPage: page_num,
     totalPages,
@@ -51,7 +51,7 @@ app.get("/page/:page_num", (req, res) => {
   const UserData = UserLists.slice(start, end);
   const totalPages = Math.ceil(UserLists.length / page_len);
 
-  res.render("index", {
+  res.render("home", {
     data: UserData,
     currentPage: page_num,
     totalPages,
@@ -75,7 +75,7 @@ app.get("/search/:query/:page_num", (req, res) => {
   const UserData = filter_data.slice(start, end);
   const totalPages = Math.ceil(filter_data.length / page_len);
 
-  res.render("index", {
+  res.render("home", {
     data: UserData,
     currentPage: page_num,
     totalPages,
