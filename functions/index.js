@@ -1,9 +1,9 @@
 import fetch from "node-fetch";
-import express from "express";
-
+import express, { Router } from "express";
+import serverless from "serverless-http";
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const router = Router();
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +24,7 @@ fetchData().then(() => {
   });
 });
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   const page_len = 10;
   const page_num = parseInt(req.params.page_num, 10) || 1;
 
@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/page/:page_num", (req, res) => {
+router.get("/page/:page_num", (req, res) => {
   const page_len = 10;
   const page_num = parseInt(req.params.page_num, 10) || 1;
 
@@ -58,7 +58,7 @@ app.get("/page/:page_num", (req, res) => {
   });
 });
 
-app.get("/search/:query/:page_num", (req, res) => {
+router.get("/search/:query/:page_num", (req, res) => {
   const query = req.params.query.toLowerCase();
   const page_len = 10;
   const page_num = parseInt(req.params.page_num, 10) || 1;
@@ -82,7 +82,7 @@ app.get("/search/:query/:page_num", (req, res) => {
   });
 });
 
-app.get("/edit/:id", (req, res) => {
+router.get("/edit/:id", (req, res) => {
   const userId = parseInt(req.params.id, 10);
   const user = UserLists.find((u) => parseInt(u.id) === userId);
   if (!user) {
@@ -92,7 +92,7 @@ app.get("/edit/:id", (req, res) => {
   res.render("edit", { user });
 });
 
-app.post("/edit/:id", (req, res) => {
+router.post("/edit/:id", (req, res) => {
   const userId = parseInt(req.params.id, 10);
   const { name, email } = req.body;
 
@@ -104,7 +104,7 @@ app.post("/edit/:id", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/delete/:id", (req, res) => {
+router.get("/delete/:id", (req, res) => {
   const { id } = req.params;
   UserLists = UserLists.filter(
     (user) => parseInt(user.id) !== parseInt(id, 10)
@@ -113,7 +113,7 @@ app.get("/delete/:id", (req, res) => {
   res.redirect("/");
 });
 
-app.post("/delete-selected", (req, res) => {
+router.post("/delete-selected", (req, res) => {
   const selectedIds = req.body.selectedIds.map((id) => parseInt(id, 10));
   selectedIds.forEach((id) => {
     UserLists = UserLists.filter(
@@ -122,4 +122,9 @@ app.post("/delete-selected", (req, res) => {
   });
   res.redirect("/");
 });
+
+
+app.use("/", router);
+
+export const handler = serverless(app);
 
