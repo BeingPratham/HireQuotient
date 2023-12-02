@@ -1,0 +1,169 @@
+body{
+    background-color: black;
+    color: white;
+}
+h1{
+    margin-top: 20px;
+    color: #66FCF1;
+    margin-left: 40vw;
+}
+.top-head{
+    display: flex;    
+}
+.delete-bar{
+    flex: 2;
+}
+.delete-btn{
+    margin-left: 20vw;
+    background-color: black;
+    color: #66FCF1;
+    height: 30px;
+    width: 70px;
+    padding: 5px;
+    border: 1px solid #66FCF1;
+    border-radius: 4px;
+}
+.delete-btn:hover{
+    cursor: pointer;
+    color: red;
+    border: 1px solid red;
+    transition: 0.3s ease-in;
+}
+.search-bar{
+    display: flex;
+    flex: 5;
+}
+
+.search-bar input{
+    border-radius: 40px;
+    border: 1px solid #66FCF1;
+    color: white;
+    background-color: black;
+    height: 30px;
+    width: 70%;
+}
+::placeholder {
+    color: white;
+    opacity: 1; 
+  }
+.search-bar button{
+    color: white;
+    background-color: black;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #66FCF1;
+}
+.search-bar button:hover{
+    cursor: pointer;
+    background-color: #66FCF1;
+    color: black;
+    transition: 0.4s ease-in;
+}
+table{
+    border-collapse: collapse;
+    width: 60vw;
+    margin-left: 20vw;
+    margin-top: 10px;
+    border: 1px solid #66FCF1;
+    border-top: 1px solid #66FCF1;
+    height: 80vh;
+}
+td{
+    border-top: 1px solid #66FCF1;
+    height: 30px;
+}
+.edit-button{
+    display: flex;
+    justify-content: space-around;
+}
+.pagination{
+    margin-left: 60vw;
+    margin-top: 10px;
+}
+.isChecked{
+    background: #ddd;
+  }
+.edit{
+    border: 1px dotted white;
+    padding: 2px;
+    text-decoration: none;
+    color: white;
+}
+.edit:hover{
+    color: #66FCF1;
+    border: 1px dotted #66FCF1;
+    transition: 0.4s ease-in-out;
+}
+.delete{
+    border: 1px dotted white;
+    padding: 2px;
+    text-decoration: none;
+    color: white;
+}
+.delete:hover{
+    color: red;
+    border: 1px dotted red;
+    transition: 0.4s ease-in-out;
+}
+.row-checkbox{
+    color: red;
+}
+input[type='checkbox']:checked {
+    
+    background-color: red;
+    border: 1px dotted white;
+    transition: 0.3s ease-in;
+  }
+  input[type='checkbox']{
+    text-align: center;
+    vertical-align: middle;
+    width: 20px !important;
+    height: 20px !important;
+    appearance:none;
+    border-radius:10%;
+    border: 1px dotted white;
+    box-shadow: none;
+    font-size: 1em;
+  }
+  input[type='checkbox']:hover{
+    cursor: pointer;
+
+  }
+  .pagination a{
+    text-decoration: none;
+    border: 1px dotted whitesmoke;
+    padding: 2px;
+    color: white;
+  }
+  .pagination a:hover{
+    border: 1px dotted #66FCF1;
+    color: #66FCF1;
+    transition: 0.4s ease;
+  }
+
+
+  @media screen and (max-width: 800px){
+    h1{
+        font-size: 30px;
+        margin-left: 90px;
+    }
+    table{
+        margin-left: 23px;
+        margin-right: 3px;
+        height: 150px;  
+        font-size: 13px;
+    }
+    td{
+        font-weight: 400;
+    }
+    .search-bar{
+        width: 100px;
+        justify-content: flex-end;
+        margin-right: 30px;
+        margin-left: 19px;
+    }
+    .pagination{
+        margin-left: 80px;
+        margin-top: 20px;
+    }
+  }

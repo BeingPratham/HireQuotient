@@ -1,0 +1,151 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Interface</title>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    <h1>Admin DataBook</h1>
+    <div class="top-head">
+      <div class="delete-bar">
+        <button class="delete-btn" onclick="deleteSelected()">Delete</button>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search" />
+        <button class="search-icon" onclick="search()">Search</button>
+      </div>
+    </div>
+
+    <table style="overflow-x: auto">
+      <thead>
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+              id="selectAll"
+              class="select-all"
+              onclick="selectAll()"
+              onchange="toggleSelectAll()"
+            />
+          </td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(user => { %>
+        <tr id="row<%= user.id %>">
+          <td>
+            <input
+              type="checkbox"
+              class="row-checkbox"
+              data-id="<%= user.id %>"
+              onchange="toggleRowColor('<%= user.id %>')"
+            />
+          </td>
+          <td><center><%= user.id %></center></td>
+          <td><center><%= user.name %></center></td>
+          <td><center><%= user.email %></center></td>
+          <td><center><%= user.role %></center></td>
+
+          <td>
+            <center>
+              <div class="edit-button">
+                <a href="/edit/<%= user.id %>" class="edit">Edit</a>
+
+                <a href="/delete/<%= user.id %>" class="delete">Delete</a>
+              </div>
+            </center>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+      <a href="/page/1">First</a>
+      <a href="/page/<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+
+      <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+      <% if (currentPage < totalPages) { %>
+      <a href="/page/<%= currentPage + 1 %>">Next</a>
+      <a href="/page/<%= totalPages %>">Last</a>
+      <% } %>
+    </div>
+    <script>
+      function search() {
+        const searchInput = document.getElementById("searchInput");
+        const query = searchInput.value.trim().toLowerCase();
+        if (query === "") {
+          window.location.href = `/`;
+        } else {
+          window.location.href = `/search/${query}/1`;
+        }
+      }
+
+      function selectAll() {
+        const checkboxes = document.querySelectorAll(".row-checkbox");
+        const selectAllCheckbox = document.getElementById("selectAll");
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = selectAllCheckbox.checked;
+        });
+      }
+
+      function deleteSelected() {
+        const selectedIds = Array.from(
+          document.querySelectorAll(".row-checkbox:checked")
+        ).map((checkbox) => parseInt(checkbox.dataset.id));
+        if (selectedIds.length === 0) {
+          alert("Please select at least one user to delete.");
+          return;
+        }
+
+        if (!confirm("Are you sure you want to delete the selected users?")) {
+          return;
+        }
+
+        fetch("/delete-selected", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ selectedIds }),
+        }).then((data) => {
+          if (data.status === 200) {
+            window.location.reload();
+          } else {
+            alert("Error deleting selected users.");
+          }
+        });
+      }
+
+      function toggleRowColor(userId) {
+        const row = document.getElementById("row" + userId);
+        const checkbox = row.querySelector(".row-checkbox");
+
+        if (checkbox.checked) {
+          row.style.backgroundColor = "grey";
+        } else {
+          row.style.backgroundColor = "";
+        }
+      }
+
+      function toggleSelectAll() {
+        const selectAllCheckbox = document.getElementById("selectAll");
+        const checkboxes = document.querySelectorAll(".row-checkbox");
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = selectAllCheckbox.checked;
+          toggleRowColor(checkbox.dataset.id);
+        });
+      }
+    </script>
+  </body>
+</html>
