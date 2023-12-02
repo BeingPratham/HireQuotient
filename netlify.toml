@@ -4,6 +4,6 @@
     publish = "views"
 
 [[redirects]]
-    to = "/.netlify/functions/app/:splat"
     from = "/*"
+    to = "./views/index.ejs"
     status = 200 
